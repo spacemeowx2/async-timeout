@@ -3,6 +3,8 @@ name = "async-timeout"
 version = "0.0.1"
 authors = ["spacemeowx2 <spacemeowx2@gmail.com>"]
 edition = "2018"
+description = "Some timeout for async rust."
+license = "MIT"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
