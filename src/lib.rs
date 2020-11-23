@@ -1,11 +1,11 @@
-use tokio::time::{Instant, Duration, Delay, delay_for};
+use tokio::time::{Instant, Duration, Sleep, sleep};
 use std::{io, pin::Pin, task::{Poll, Context}, future::Future, sync::{Arc, Mutex}};
 
 #[derive(Debug)]
 pub struct VisitorTimeout {
     last_visit: Arc<Mutex<Instant>>,
     timeout: Duration,
-    timer: Delay,
+    timer: Sleep,
 }
 
 #[derive(Debug, Clone)]
@@ -20,7 +20,7 @@ impl VisitorTimeout {
         (VisitorTimeout {
             last_visit: last_visit.clone(),
             timeout,
-            timer: delay_for(timeout),
+            timer: sleep(timeout),
         }, Visitor {
             last_visit
         })
@@ -34,7 +34,7 @@ impl VisitorTimeout {
             if elapsed > self.timeout {
                 return Poll::Ready(Err(io::ErrorKind::TimedOut.into()))
             } else {
-                self.timer = delay_for(self.timeout - elapsed);
+                self.timer = sleep(self.timeout - elapsed);
             }
         }
     }
@@ -57,7 +57,7 @@ impl Visitor {
 pub struct Timeout {
     last_visit: Instant,
     timeout: Duration,
-    timer: Delay,
+    timer: Sleep,
 }
 
 impl Timeout {
@@ -66,7 +66,7 @@ impl Timeout {
         Timeout {
             last_visit: Instant::now(),
             timeout,
-            timer: delay_for(timeout),
+            timer: sleep(timeout),
         }
     }
     pub fn visit(&mut self) {
@@ -81,7 +81,7 @@ impl Timeout {
             if elapsed > self.timeout {
                 return Poll::Ready(Err(io::ErrorKind::TimedOut.into()))
             } else {
-                self.timer = delay_for(self.timeout - elapsed);
+                self.timer = sleep(self.timeout - elapsed);
             }
         }
     }

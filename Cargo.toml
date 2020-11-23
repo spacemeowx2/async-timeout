@@ -1,6 +1,6 @@
 [package]
 name = "async-timeout"
-version = "0.1.1"
+version = "0.2.0"
 authors = ["spacemeowx2 <spacemeowx2@gmail.com>"]
 edition = "2018"
 description = "Some timeout for async rust."
@@ -9,4 +9,4 @@ license = "MIT"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-tokio = { version = "0.2", features = [ "time" ] }
+tokio = { version = "0.3", features = [ "time" ] }
